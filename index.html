@@ -6,7 +6,33 @@
     <title>Биоэнергомассажер Fohow - FAQ</title>
     <style>
         :root {
-            --base-font-size: 18px;
+            /* Светлая тема (по умолчанию) */
+            --bg-color: #f4f7f6;
+            --text-color: #333333;
+            --container-bg: #ffffff;
+            --header-bg: #ffffff;
+            --header-shadow: rgba(0,0,0,0.1);
+            --accent-color: #e74c3c;
+            --accent-text: #c0392b;
+            --border-color: #e74c3c;
+            --slider-track: #dddddd;
+            --btn-bg: #f0f0f0;
+            --btn-text: #333333;
+        }
+
+        [data-theme="dark"] {
+            /* Темная тема */
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --container-bg: #1e1e1e;
+            --header-bg: #1e1e1e;
+            --header-shadow: rgba(0,0,0,0.5);
+            --accent-color: #ff7970;
+            --accent-text: #ff7970;
+            --border-color: #ff7970;
+            --slider-track: #444444;
+            --btn-bg: #333333;
+            --btn-text: #e0e0e0;
         }
 
         * {
@@ -18,40 +44,50 @@
             line-height: 1.7;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
-            /* Защита от горизонтального прокручивания на мобильных */
+            background-color: var(--bg-color);
+            color: var(--text-color);
             overflow-x: hidden; 
             word-wrap: break-word;
             overflow-wrap: break-word;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Панель управления ползунком */
+        /* Панель управления */
         .controls {
             position: sticky;
             top: 0;
-            background-color: #ffffff;
+            background-color: var(--header-bg);
             padding: 15px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px var(--header-shadow);
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             gap: 15px;
             z-index: 1000;
             width: 100%;
+            flex-wrap: wrap;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+            justify-content: center;
         }
 
         .controls label {
             font-weight: bold;
-            color: #2c3e50;
+            color: var(--text-color);
         }
 
         input[type="range"] {
             cursor: pointer;
-            width: 200px;
-            max-width: 50%;
+            width: 100%;
+            max-width: 250px;
             height: 6px;
-            background: #ddd;
+            background: var(--slider-track);
             border-radius: 5px;
             -webkit-appearance: none;
             appearance: none;
@@ -63,7 +99,7 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            background: #e74c3c;
+            background: var(--accent-color);
             border-radius: 50%;
             cursor: pointer;
         }
@@ -71,7 +107,7 @@
         input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
-            background: #e74c3c;
+            background: var(--accent-color);
             border-radius: 50%;
             cursor: pointer;
             border: none;
@@ -81,7 +117,26 @@
             font-weight: bold;
             min-width: 40px;
             text-align: left;
-            color: #e74c3c;
+            color: var(--accent-color);
+        }
+
+        /* Кнопка переключения темы */
+        .theme-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: 1px solid var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
         }
 
         /* Контейнер с текстом */
@@ -89,16 +144,17 @@
             max-width: 800px;
             margin: 30px auto;
             padding: 40px;
-            background-color: #ffffff;
+            background-color: var(--container-bg);
             border-radius: 10px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-            font-size: var(--base-font-size);
+            box-shadow: 0 6px 18px var(--header-shadow);
+            font-size: 18px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .content h1, .content h2 {
             text-align: center;
-            color: #2c3e50;
-            border-bottom: 2px solid #e74c3c;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 10px;
             margin-top: 40px;
         }
@@ -114,11 +170,11 @@
         .content strong {
             display: block;
             margin-top: 25px;
-            color: #c0392b;
+            color: var(--accent-text);
             font-size: 1.1em;
         }
 
-        /* Строгое ограничение для мобильных, чтобы текст был по краям */
+        /* Строгое ограничение для мобильных */
         @media (max-width: 600px) {
             .container {
                 margin: 0;
@@ -128,24 +184,31 @@
             }
             .controls {
                 padding: 10px 15px;
-                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .theme-btn {
+                order: -1;
+                margin-bottom: 10px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Панель с ползунком -->
+    <!-- Панель с ползунком и кнопкой темы -->
     <div class="controls">
-        <label for="fontSize">Размер текста:</label>
-        <input type="range" id="fontSize" min="14" max="30" value="18">
-        <span class="size-value" id="sizeValue">18px</span>
+        <button id="themeToggle" class="theme-btn">🌙 Темная</button>
+        <div class="control-group">
+            <label for="fontSize">Размер текста:</label>
+            <input type="range" id="fontSize" min="14" max="30" value="18">
+            <span class="size-value" id="sizeValue">18px</span>
+        </div>
     </div>
 
     <!-- Контейнер для контента -->
     <div class="container">
         <div class="content" id="faqContent">
-            <!-- Текст загрузится сюда автоматически через скрипт, чтобы не засорять HTML звездочками -->
+            <!-- Текст загрузится сюда автоматически -->
         </div>
     </div>
 
@@ -804,7 +867,7 @@
 Во время сеанса подобная реакция может возникнуть вследствие значительной блокировки энергетических каналов вокруг губ. В случае сильного онемения рекомендуется сделать перерыв на 3-7 дней. Не злоупотребляйте слишком частыми и продолжительными сеансами регуляции, придерживайтесь рекомендаций специалистов Бизнес-Колледжа Fohow. Бесконтрольное использование насадки может вызвать переутомление и онемение кожи.
 
 **142. Почему после сеанса ультразвуковой биоэнергорегуляции кожи лица у некоторых людей может возникать ощущение покалывания?**
-Уход за лицом с помощью БЭМ 3.0 основан на принципах традиционной китайской медицины. Очистка энергетических каналов приводит к освобождению энергии Ци и свободной циркуляции крови, что обеспечивает питание и восстановление поврежденных участков кожи (происходит синтез коллагена и гиалуроновой кислоты). В процессе быстрого насыщения кожи компонентами увлажняющего геля Fohow для лица и тела может возникнуть небольшое ощущение покалывания - это нормальная реакция кожи. Особенно выражено такая реакция проявляется при наличии угревой сыпи или рубцов на лице - это свидетельствует о процессе восстановления тканей.
+Уход за лицом с помощью БЭМ 3.0 основан на принципах традиционной китайской медицианы. Очистка энергетических каналов приводит к освобождению энергии Ци и свободной циркуляции крови, что обеспечивает питание и восстановление поврежденных участков кожи (происходит синтез коллагена и гиалуроновой кислоты). В процессе быстрого насыщения кожи компонентами увлажняющего геля Fohow для лица и тела может возникнуть небольшое ощущение покалывания - это нормальная реакция кожи. Особенно выражено такая реакция проявляется при наличии угревой сыпи или рубцов на лице - это свидетельствует о процессе восстановления тканей.
 
 **143. На что обратить внимание при использовании ультразвуковой насадки для ухода за кожей лица?**
 1. При наличии силиконовых и других внутренних протезов, стоматологических имплантов и подкожных инъекций филлеров, использование насадки не должно затрагивать зоны, где проводились данные виды вмешательств.
@@ -848,22 +911,14 @@
     </script>
 
     <script>
-        // Берем оригинальный текст и убираем звездочки, заменяя их на теги
+        // 1. Обработка текста (удаляем звездочки, формируем абзацы)
         const rawText = document.getElementById('rawText').textContent.trim();
-        
-        // Заменяем двойные звездочки на тег <strong> (жирный текст)
         let formattedText = rawText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        
-        // Формируем абзацы там, где есть двойные переносы строк
         formattedText = formattedText.replace(/\n\s*\n/g, '</p><p>');
-        
-        // Заменяем одинарные переносы строк на <br>, чтобы сохранить оригинальную структуру списков
         formattedText = formattedText.replace(/\n/g, '<br>');
-        
-        // Оборачиваем весь текст в абзацы
         document.getElementById('faqContent').innerHTML = '<p>' + formattedText + '</p>';
 
-        // Логика ползунка изменения размера шрифта
+        // 2. Логика ползунка
         const fontSizeSlider = document.getElementById('fontSize');
         const sizeValue = document.getElementById('sizeValue');
         const container = document.querySelector('.container');
@@ -873,6 +928,33 @@
             container.style.fontSize = newSize + 'px';
             sizeValue.textContent = newSize + 'px';
         });
+
+        // 3. Логика переключения темной/светлой темы
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Проверяем сохраненную тему в localStorage, если нет - проверяем системные настройки
+        const savedTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Применяем тему при загрузке
+        html.setAttribute('data-theme', savedTheme);
+        updateButtonText(savedTheme);
+
+        // Обработчик клика по кнопке
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme); // Сохраняем выбор пользователя
+            updateButtonText(newTheme);
+        });
+
+        // Функция смены текста и эмодзи на кнопке
+        function updateButtonText(theme) {
+            themeToggle.textContent = theme === 'dark' ? '☀️ Светлая' : '🌙 Темная';
+        }
     </script>
 </body>
 </html>
